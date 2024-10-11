@@ -19,5 +19,9 @@ from app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', views.login, name='login')
+    path('login/', views.login, name='login'),
+    path('cadastro_de_tarefas/', views.cadastro_de_tarefas, name='cadastro_de_tarefas'),
+    path('cadastro_de_usuários/', views.cadastro_de_usuarios, name='cadastro_de_usuários'),
+    path('Listagem_de_tarefas/', views.Listagem_de_tarefas, name='Listagem_de_tarefas')
+
 ]

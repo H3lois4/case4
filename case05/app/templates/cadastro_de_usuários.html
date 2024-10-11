@@ -34,7 +34,7 @@
             border-radius: 5px;
         }
         .register-btn {
-            width: 100%;
+            width: 102%;
             padding: 10px;
             background-color: #AD182D;
             border: none;
@@ -48,7 +48,7 @@
         }
         .form-link {
             text-align: center;
-            margin-top: 10px;
+            margin-top: 0px;
         }
         .form-link a {
             color: #007BFF;
@@ -63,10 +63,11 @@
     <div class="register-container">
         <h2>Cadastro</h2>
         <form action="/register" method="POST">
-            <input type="text" name="name" class="input-field" placeholder="Nome Completo" required>
-            <input type="email" name="email" class="input-field" placeholder="E-mail" required>
-            <input type="password" name="password" class="input-field" placeholder="Senha" required>
-            <input type="password" name="confirm_password" class="input-field" placeholder="Confirme a Senha" required>
+            <input type="text" name="name" class="input-field" placeholder="Nome Completo:" required>
+            <input type="email" name="email" class="input-field" placeholder="E-mail:" required>
+            <input type="number" name="RA/TIA" class="input-field" placeholder="RA/TIA:" required>
+            <input type="password" name="password" class="input-field" placeholder="Senha:" required>
+            <input type="password" name="confirm_password" class="input-field" placeholder="Confirme a Senha:" required>
             <button type="submit" class="register-btn">Cadastrar</button>
         </form>
         <div class="form-link">
