@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Cadastro de Usuário</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffeed8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .register-container {
+            background-color: #fff;
+            padding: 120px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 1100px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .register-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #AD182D;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .register-btn:hover {
+            background-color: #AD182D;
+        }
+        .form-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .form-link a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .form-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h2>Cadastro</h2>
+        <form action="/register" method="POST">
+            <input type="text" name="name" class="input-field" placeholder="Nome Completo" required>
+            <input type="email" name="email" class="input-field" placeholder="E-mail" required>
+            <input type="password" name="password" class="input-field" placeholder="Senha" required>
+            <input type="password" name="confirm_password" class="input-field" placeholder="Confirme a Senha" required>
+            <button type="submit" class="register-btn">Cadastrar</button>
+        </form>
+        <div class="form-link">
+            <p>Já tem uma conta? <a href="/login">Faça login</a></p>
+        </div>
+    </div>
+</body>
+</html>

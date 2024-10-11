@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Lista de Tarefas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .task-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 500px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-field, .select-field {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .submit-btn, .edit-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .submit-btn:hover, .edit-btn:hover {
+            background-color: #218838;
+        }
+        .delete-btn {
+            padding: 5px 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+        .edit-btn-inline {
+            padding: 5px 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .edit-btn-inline:hover {
+            background-color: #0056b3;
+        }
+        .task-list {
+            margin-top: 20px;
+        }
+        .task-item {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="task-container">
+        <h2>Lista de Tarefas</h2>
+        
+        <!-- Botão para abrir o formulário de cadastro -->
+        <button class="add-task-btn" onclick="toggleForm()">Cadastrar Nova Tarefa</button>
+
+        <!-- Formulário de cadastro e edição de tarefa -->
+        <div id="taskFormContainer" class="hidden">
+            <form id="taskForm">
+                <input type="hidden" name="taskId">
+                <input type="text" name="title" class="input-field" placeholder="Título" required>
+                <textarea name="description" class="input-field" placeholder="Descrição" rows="4" required></textarea>
+                <input type="date" name="deadline" class="input-field" required>
+                <select name="status" class="select-field" required>
+                    <option value="">Selecione o Status</option>
+                    <option value="concluido">Concluído</option>
+                    <option value="nao-concluido">Não Concluído</option>
+                </select>
+                <button type="submit" class="submit-btn">Cadastrar Tarefa</button>
+                <button type="button" class="edit-btn hidden" onclick="saveEditedTask()">Salvar Alterações</button>
+            </form>
+        </div>
+
+        <!-- Lista de tarefas -->
+        <div class="task-list" id="taskList">
+            <!-- Tarefas serão adicionadas aqui -->
+        </div>
+    </div>
+
+    <script>
+        // Array para armazenar as tarefas
+        let taskArray = [];
+        let editTaskIndex = null;
+
+        // Função para alternar a exibição do formulário
+        function toggleForm() {
+            const formContainer = document.getElementById('taskFormContainer');
+            formContainer.classList.toggle('hidden');
+            document.querySelector('.submit-btn').classList.remove('hidden');
+            document.querySelector('.edit-btn').classList.add('hidden');
+        }
+
+        // Função para cadastrar nova tarefa
+        document.getElementById('taskForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Coletar os dados do formulário
+            const title = event.target.title.value;
+            const description = event.target.description.value;
+            const deadline = event.target.deadline.value;
+            const status = event.target.status.value;
+
+            // Criar objeto de tarefa
+            const newTask = {
+                title: title,
+                description: description,
+                deadline: deadline,
+                status: status
+            };
+
+            // Adicionar a tarefa ao array e atualizar a lista
+            taskArray.push(newTask);
+            updateTaskList();
+
+            // Resetar o formulário e esconder
+            event.target.reset();
+            toggleForm();
+        });
+
+        // Função para atualizar a lista de tarefas
+        function updateTaskList() {
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = '';  // Limpar a lista atual
+
+            // Gerar HTML para cada tarefa no array
+            taskArray.forEach((task, index) => {
+                const taskItem = document.createElement('div');
+                taskItem.classList.add('task-item');
+                
+                taskItem.innerHTML = `
+                    <div>
+                        <span><strong>Título:</strong> ${task.title}</span>
+                        <span><strong>Descrição:</strong> ${task.description}</span>
+                        <span><strong>Prazo:</strong> ${task.deadline}</span>
+                        <span><strong>Status:</strong> ${task.status === 'concluido' ? 'Concluído' : 'Não Concluído'}</span>
+                    </div>
+                    <div>
+                        <button class="edit-btn-inline" onclick="editTask(${index})">Editar</button>
+                        <button class="delete-btn" onclick="deleteTask(${index})">Excluir</button>
+                    </div>
+                `;
+
+                // Adicionar a tarefa na lista
+                taskList.appendChild(taskItem);
+            });
+        }
+
+        // Função para excluir uma tarefa
+        function deleteTask(index) {
+            taskArray.splice(index, 1);
+            updateTaskList();
+        }
+
+        // Função para editar uma tarefa
+        function editTask(index) {
+            const task = taskArray[index];
+            editTaskIndex = index;
+
+            // Preencher o formulário com os dados da tarefa a ser editada
+            document.querySelector('input[name="title"]').value = task.title;
+            document.querySelector('textarea[name="description"]').value = task.description;
+            document.querySelector('input[name="deadline"]').value = task.deadline;
+            document.querySelector('select[name="status"]').value = task.status;
+
+            // Exibir o formulário e ajustar os botões
+            toggleForm();
+            document.querySelector('.submit-btn').classList.add('hidden');
+            document.querySelector('.edit-btn').classList.remove('hidden');
+        }
+
+        // Função para salvar as alterações na tarefa editada
+        function saveEditedTask() {
+            const title = document.querySelector('input[name="title"]').value;
+            const description = document.querySelector('textarea[name="description"]').value;
+            const deadline = document.querySelector('input[name="deadline"]').value;
+            const status = document.querySelector('select[name="status"]').value;
+
+            // Atualizar os dados da tarefa
+            taskArray[editTaskIndex] = { title, description, deadline, status };
+            updateTaskList();
+
+            // Resetar o formulário e esconder
+            document.getElementById('taskForm').reset();
+            toggleForm();
+        }
+    </script>
+</body>
+</html>
